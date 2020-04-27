@@ -1,0 +1,46 @@
+{% include 'base.html' %}
+{% block content %}
+
+<div class="jumbotron container">
+  <h1 class="display-4">SocialApp</h1>
+  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+  <hr class="my-4">
+  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+  <p class="lead">
+    <a class="btn btn-primary" href="#" role="button">Learn more</a>
+  </p>
+</div> 
+
+<div class='container container-fluid'>
+  <div class='row'>
+    <div class="col-md-3">
+      <h2>Groups: </h2>
+      {% for group in groups %}
+        <a class="card list-group-item" href="{% url 'groups:single' slug=group.slug %}">
+            <h3 class="title list-group-item-heading">{{ group.name }}</h3>
+        <div class="list-group-item-text container-fluid">
+          {{ group.description_html|safe }}
+            <span class="badge">{{ group.member.count }}</span> member{{ group.member.count|pluralize }}
+            <span class="badge">{{ group.posts.count }}</span> post{{ group.posts.count|pluralize }}					
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="col-md-6">
+      <h2>Posts </h2>
+
+      {% for post in posts %}
+        {% include "posts/_post.html" %}
+      {% endfor %}
+    </div>
+
+    <div class="col-md-3">
+      <h2>Users </h2>
+      {% for user in users %}
+        <p>{{ user.username }} - {{ user.email }}</p>
+      {% endfor %}
+    </div>
+    
+  </div>
+</div>
+{% endblock%}
