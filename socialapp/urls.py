@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from . import views
+from django.conf import settings
+from posts import views as post_views
 
 
 
@@ -26,6 +28,14 @@ urlpatterns = [
     url(r'^posts/', include('posts.urls',namespace='posts')),
     url(r'^groups/', include('groups.urls',namespace='groups')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^cmdb/', include('cmdb.urls',namespace='cmdb')),
     url(r"^test", views.TestPage.as_view(), name = 'test'),
     url(r"^thanks", views.ThanksPage.as_view(), name = 'thanks'),
+    url(r'^addPost/$', post_views.addPostForm, name='addPost'),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls))
+    ] + urlpatterns

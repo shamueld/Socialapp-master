@@ -1,0 +1,26 @@
+{% include 'cmdb/cmdb_base.html' %}
+{% load bootstrap3 %}
+
+{% block cmdb_content %}
+    <div class='col-md-3'></div>
+    <div class='col-md-5'>
+        <h3>Server Name: {{ server.name }}</h3>
+        Applications Hosted:
+        {% for app in server.app.all %}        
+        <ul>
+            <li>
+                <a href="{% url 'cmdb:single_app' pk=app.pk %}">{{ app.name }}</a>       
+            </li>
+        </ul>
+        {% endfor %}
+        Related EAI Codes:
+        {% for eai in server.eai.all %}        
+        <ul>
+            <li>
+                <a href="{% url 'cmdb:single_eai' pk=eai.pk %}">{{ eai.eai_code }}</a>              
+            </li>
+        </ul>
+        {% endfor %}
+        
+
+{% endblock %}  

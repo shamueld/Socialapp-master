@@ -1,0 +1,12 @@
+{% include 'base.html' %}
+{% block content %}
+
+<div class='container'>
+    <div class='row'>
+        {% block precmdb %}{% endblock %}
+        {% block cmdb_content %}{% endblock %}
+        {% block post_cmdb %}{% endblock %}
+    </div>
+</div>
+
+{% endblock %}

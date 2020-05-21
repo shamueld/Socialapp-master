@@ -1,0 +1,18 @@
+{% include 'base.html' %}
+    {% block cmdb_content %}
+        <div class='container'>
+            <h1>CMDB Inventory</h1>
+            {{ Insert }}
+            <h2>Servers</h2>
+            <a href="{% url 'cmdb:server_all' %}">Server List</a>
+            <a href="{% url 'cmdb:create_server' %}">Create new server</a>        
+
+            <h2>EAIs</h2>
+            <a href="{% url 'cmdb:eai_all' %}">EAI List</a>
+            <a href="{% url 'cmdb:create_eai' %}">Create new EAI</a>
+
+            <h2>Applications</h2>
+            <a href="{% url 'cmdb:app_all' %}">Application List</a>
+            <a href="{% url 'cmdb:create_app' %}">Create new Application</a>
+        </div>
+    {% endblock %}

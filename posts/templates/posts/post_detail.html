@@ -1,5 +1,5 @@
 {% include 'posts/post_base.html' %}
-{% load bootstrap %}
+{% load bootstrap3 %}
 
 {% block post_content %}
     <div class='col-md-3'></div>
@@ -18,13 +18,20 @@
                 <strong>Posted for Group: {{ post.group.name }}</strong>
             </a>
         </div>
+        <p class="float-right">Comments: {{ post.comments.count }}</p> 
         <hr>
-        <strong class="float-right">Comments: {{ post.comments.count }}</strong> 
-        <form action="{% url 'posts:addComment' username=user.username pk=post.pk %}" method="post">
-            {{ form.as_p }}
-            {% csrf_token %}
-            <input type="submit" class='btn btn-primary' value="New Comment">
-        </form>
+        {% if user.is_authenticated %}
+            <form action="{% url 'posts:addComment' username=user.username pk=post.pk %}" method="post">
+                {% csrf_token %}
+                <!-- {{ form.as_p }} -->
+                <textarea name="message" id="" cols="70" rows="3" placeholder="Type something here!"></textarea>
+                <div><input type="submit" class='btn btn-primary' value="Submit"></div>
+            </form>
+            {% else %}
+                <h4>Please login to add new comments</h4>
+                <a href="{% url 'accounts:login' %}" class="btn btn-sm btn-primary">Login</a>
+
+        {% endif %}
         <hr>
         {% for comment in post.comments.all %}
         <p>{{ comment.message }}</p>

@@ -14,10 +14,13 @@ from django.views import generic
 from braces.views import SelectRelatedMixin
 
 from . import models
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
+
+import requests
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
+
 
 # Create your views here.
 
@@ -32,18 +35,22 @@ class PostList(SelectRelatedMixin,generic.ListView):
 class UserPosts(generic.ListView):
     model = models.Post
     template_name = 'posts/user_list.html' 
+    contact = '888'
 
     def get_queryset(self):
+        
         try:
             self.post_user = User.objects.prefetch_related('posts').get(username__iexact=self.kwargs.get('username'))
         except User.DoesNotExiist:
             raise Http404
         else:
-            return self.post_user.posts.all()
+            return self.post_user.posts.filter()
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['post_user'] = self.post_user
+        context['myname'] = "Shamuel Dandwate"
+        context['contact'] = self.contact
         return context
 
 class PostDetail(SelectRelatedMixin,generic.DetailView):
@@ -95,3 +102,24 @@ def AddComment(request, username, pk):
         form = CommentForm()
     
     return render(request, 'posts/post_detail.html', {'form': form, 'user': user, 'post': post})
+
+def addPostForm(request):
+    
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect('home',)
+    else:
+        form = PostForm()
+
+    return render(request, 'index.html', {'post_form': form, 
+                    'posts': models.Post.objects.all()[:5],
+                    'groups': models.Group.objects.all()[:5], 
+                    'users': models.User.objects.all()[:5]},
+                )
+    
+

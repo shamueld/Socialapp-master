@@ -1,0 +1,28 @@
+{% include 'cmdb/cmdb_base.html' %}
+
+{% block precmdb %}
+<div class='col-md-4'>
+    <div class='container'>
+        <div class='content'>            
+            <a href="{% url 'cmdb:create_app' %}">Create new Application</a>
+            <h5 class='title'>All Applications</h5>
+            <ul class='list-unstyled'>
+                {% for app in application_list %}
+                <li class='li-with-bullet'>
+                    name: <a href="{% url 'cmdb:single_app' pk=app.pk %}">{{ app.name }}</a>                 
+                    
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- {% block post_content %}
+<div class='col-md-8'>
+    {% for post in post_list %}
+        {% include 'posts/_post.html' %}
+    {% endfor %}
+</div>
+{% endblock %} -->

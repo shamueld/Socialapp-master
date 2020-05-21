@@ -1,0 +1,18 @@
+{% include 'cmdb/cmdb_base.html' %}
+
+{% block precmdb %}
+<div class='col-md-4'>
+    <div class='card card-with-shadow'>
+        <div class='content'>
+            <h5 class='title'>All EAIs</h5>
+            <ul class='list-unstyled'>
+                {% for eai in eai_list %}
+                <li class='li-with-bullet'>
+                    <a href="{% url 'cmdb:single_eai' pk=eai.pk %}">{{ eai.eai_code }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

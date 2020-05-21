@@ -1,0 +1,12 @@
+{% load static %}
+
+<div class="card text-white bg-info mb-3" style="width: 18rem;">
+    <!-- <img class="card-img-top" src="{% static 'img/user.png' %}" alt="Card image cap"> -->
+    <div class="card-body">
+      <h4 class="card-title text-capitalize text-warning  font-weight-bold">{{ user.username }}</h4>
+      <h6 class="card-subtitle m-2">Manager</h6>
+      <a href="" class="card-text text-light ml-2">{{ user.email }}</a>
+      <a href="{% url 'posts:for_user' username=user.username %}" class="btn btn-dark float-right">View</a>
+      <hr>
+    </div>
+</div>   

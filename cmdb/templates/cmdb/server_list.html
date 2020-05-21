@@ -1,0 +1,26 @@
+{% include 'cmdb/cmdb_base.html' %}
+
+{% block precmdb %}
+<div class='col-md-4'>
+    <div class=''>
+        <div class='content'>
+            <h5 class='title'>All Servers from server_list.html</h5>
+            <ul class='list-unstyled'>
+                {% for server in server_list %}
+                <li>
+                    <a href="{% url 'cmdb:single_server' pk=server.pk %}">{{ server.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<!-- {% block post_content %}
+<div class='col-md-8'>
+    {% for post in post_list %}
+        {% include 'posts/_post.html' %}
+    {% endfor %}
+</div>
+{% endblock %} -->

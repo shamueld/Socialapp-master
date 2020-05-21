@@ -1,0 +1,21 @@
+ {% include 'cmdb/cmdb_base.html' %}
+ 
+ {% load bootstrap %}
+{% block cmdb_content %}
+
+<div class="container">
+    <div class='row'>
+        <div class="col-md-4">
+            <h4>Add EAI</h4>
+        </div>
+        <div class='col-md-6'>
+            <form action="{% url 'cmdb:create_eai' %}" method="post" id='postForm'>
+                {% csrf_token %}
+                {{ form|bootstrap }}
+                <input type="submit" class='btn btn-lg btn-promary' value="Post">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

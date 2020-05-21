@@ -15,16 +15,23 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR,'templates')
+SERVER_TEMPLATES_DIR = os.path.join(BASE_DIR,'templates','cmdb','server')
+APP_TEMPLATES_DIR = os.path.join(BASE_DIR,'templates','cmdb','app')
+EAI_TEMPLATES_DIR = os.path.join(BASE_DIR,'templates','cmdb','eai')
 STATIC_DIR = os.path.join(BASE_DIR,"static")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')j67l-rw^%hc*ag7adv(dbp0vlksto^xi=cc-@$uko%vc$u@p0'
+#SECRET_KEY = ')j67l-rw^%hc*ag7adv(dbp0vlksto^xi=cc-@$uko%vc$u@p0'
+
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = []
 
@@ -38,12 +45,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'bootstrapform',
     'bootstrap3',
     'misaka',
     'accounts',
     'groups',
     'posts',
+    'cmdb',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
 
 ROOT_URLCONF = 'socialapp.urls'
@@ -61,7 +72,7 @@ ROOT_URLCONF = 'socialapp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
+        'DIRS': [TEMPLATES_DIR, SERVER_TEMPLATES_DIR, APP_TEMPLATES_DIR, EAI_TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,5 +138,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR,]
 
-LOGIN_REDIRECT_URL = 'test'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'thanks'
+
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+INTERNAL_IPS = ['127.0.0.1']
